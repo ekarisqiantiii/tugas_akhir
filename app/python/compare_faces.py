@@ -18,7 +18,7 @@ try:
     img1.verify()
     img2.verify()
 except (IOError, SyntaxError) as e:
-    print(f"Error: {e}")
+    print([{"status":"200","msg":f"Error: {e}"}])
     sys.exit(1)
 
 # print("Images are loaded correctly and verified.")
@@ -29,10 +29,10 @@ image2 = cv2.imread(image2_path)
 
 # Check if the images were loaded successfully
 if image1 is None:
-    print({"status":"200","msg":"Error: Could not load image 1."})
+    print([{"status":"200","msg":"Error: Could not load image 1."}])
     sys.exit(1)
 if image2 is None:
-    print({"status":"200","msg":"Error: Could not load image 2."})
+    print([{"status":"200","msg":"Error: Could not load image 2."}])
     sys.exit(1)
 
 # Check the type and shape of the loaded images
@@ -66,18 +66,18 @@ face_encodings2 = face_recognition.face_encodings(rgb_image2, face_locations2)
 
 # Check if faces were found in both images
 if len(face_encodings1) == 0:
-    print({"status":"200","msg":"Error: No faces found in image 1."})
+    print([{"status":"200","msg":"Error: No faces found in image 1."}])
     sys.exit(1)
 if len(face_encodings2) == 0:
-    print({"status":"200","msg":"Error: No faces found in image 2."})
+    print([{"status":"200","msg":"Error: No faces found in image 2."}])
     sys.exit(1)
 
 if len(face_encodings1) > 1:
-    print({"status":"200","msg":"Error: There is more than one face detected in image 1."})
+    print([{"status":"200","msg":"Error: There is more than one face detected in image 1."}])
     sys.exit(1)
 
 if len(face_encodings2) > 1:
-    print({"status":"200","msg":"Error: There is more than one face detected in image 2."})
+    print([{"status":"200","msg":"Error: There is more than one face detected in image 2."}])
     sys.exit(1)
 
 
@@ -102,11 +102,11 @@ for (x, y, w, h) in faces2:
     image_blur2 = cv2.Laplacian(face_roi2, cv2.CV_64F).var()
 
 if image_blur1 < blur_tolerance:
-    print({"status":"200","msg":"Error: Blur detected in image 1."})
+    print([{"status":"200","msg":"Error: Blur detected in image 1."}])
     sys.exit(1)
 
 if image_blur2 < blur_tolerance:
-    print({"status":"200","msg":"Error: Blur detected in image 2."})
+    print([{"status":"200","msg":"Error: Blur detected in image 2."}])
     sys.exit(1)
 
 # Compare the first face encoding in each image
@@ -114,7 +114,7 @@ match = face_recognition.compare_faces([face_encodings1[0]], face_encodings2[0],
 
 # Print the result
 if match[0]:
-    print({"status":"201","msg":"Faces match"})
+    print([{"status":"201","msg":"Faces match"}])
     print("Faces match")
 else:
-    print({"status":"202","msg":"Faces do not match"})
+    print([{"status":"202","msg":"Faces do not match"}])
