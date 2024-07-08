@@ -69,7 +69,7 @@
               <span class="sidebar-mini-icon">
                 <i class="fa fa-ellipsis-h"></i>
               </span>
-              <h4 class="text-section">Components</h4>
+              <h4 class="text-section">Menu</h4>
             </li>
             <li class="nav-item active">
               <a data-bs-toggle="collapse" href="#base" class="collapsed" aria-expanded="true">
