@@ -7,3 +7,5 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->post('face-match', 'FaceMatchController::match');
+
+$routes->get('/master', 'Frontend\Master::index');
