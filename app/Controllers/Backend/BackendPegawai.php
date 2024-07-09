@@ -7,10 +7,11 @@ use App\Models\PegawaiModel;
 
 class BackendPegawai extends BaseController
 {
-    public function index()
+    public function getPegawaiData()
     {
         $pegawaiModel = new PegawaiModel();
         $data['pegawai'] = $pegawaiModel->findAll();
+
         return $this->response->setJSON($data);
     }
 

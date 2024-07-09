@@ -8,13 +8,10 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->post('face-match', 'FaceMatchController::match');
 
-$routes->group('backend', function ($routes) {
-    $routes->get('BackendPegawai', 'Backend\BackendPegawai::index');
-    $routes->post('BackendPegawai/create', 'Backend\BackendPegawai::create');
-    $routes->put('BackendPegawai/update/(:segment)', 'Backend\BackendPegawai::update/$1');
-    $routes->delete('BackendPegawai/delete/(:segment)', 'Backend\BackendPegawai::delete/$1');
+$routes->group('backend', ['namespace' => 'App\Controllers\Backend'], function ($routes) {
+    $routes->get('backendpegawai/getPegawaiData', 'BackendPegawai::getPegawaiData');
 });
 
 $routes->group('frontend', function ($routes) {
-    $routes->get('Master/pegawai', 'Frontend\Master::pegawai');
+    $routes->get('master/pegawai', 'Frontend\Master::pegawai');
 });
