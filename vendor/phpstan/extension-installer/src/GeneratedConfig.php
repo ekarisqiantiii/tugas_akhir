@@ -22,6 +22,7 @@ final class GeneratedConfig
       ),
     ),
     'version' => 'v1.4.2.70400',
+    'phpstanVersionConstraint' => '>=1.10.0.0-dev, <2.0.0.0-dev',
   ),
   'phpstan/phpstan-strict-rules' => 
   array (
@@ -34,12 +35,16 @@ final class GeneratedConfig
         0 => 'rules.neon',
       ),
     ),
-    'version' => '1.5.2',
+    'version' => '1.6.0',
+    'phpstanVersionConstraint' => '>=1.11.0.0-dev, <2.0.0.0-dev',
   ),
 );
 
 	public const NOT_INSTALLED = array (
 );
+
+	/** @var string|null */
+	public const PHPSTAN_VERSION_CONSTRAINT = '>=1.11.0.0-dev, <2.0.0.0-dev';
 
 	private function __construct()
 	{

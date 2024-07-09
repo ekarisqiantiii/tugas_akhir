@@ -23,9 +23,9 @@ namespace Symfony\Component\Config\Resource;
  */
 class FileExistenceResource implements SelfCheckingResourceInterface
 {
-    private string $resource;
+    private $resource;
 
-    private bool $exists;
+    private $exists;
 
     /**
      * @param string $resource The file path to the resource
@@ -38,7 +38,7 @@ class FileExistenceResource implements SelfCheckingResourceInterface
 
     public function __toString(): string
     {
-        return $this->resource;
+        return 'existence.'.$this->resource;
     }
 
     public function getResource(): string

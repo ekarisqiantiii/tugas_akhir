@@ -15,6 +15,7 @@ namespace Nexus\CsConfig;
 
 use PhpCsFixer\Finder;
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\Preg;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
@@ -24,7 +25,14 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 final class FixerGenerator implements \IteratorAggregate
 {
-    private function __construct(private string $path, private string $vendor) {}
+    private string $path;
+    private string $vendor;
+
+    private function __construct(string $path, string $vendor)
+    {
+        $this->path = $path;
+        $this->vendor = $vendor;
+    }
 
     /**
      * @throws \RuntimeException
@@ -43,7 +51,7 @@ final class FixerGenerator implements \IteratorAggregate
             throw new \RuntimeException('Vendor namespace cannot be empty.');
         }
 
-        if (preg_match('/^[A-Z][a-zA-Z0-9\\\\]+$/', $vendor) !== 1) {
+        if (Preg::match('/^[A-Z][a-zA-Z0-9\\\\]+$/', $vendor) !== 1) {
             throw new \RuntimeException(sprintf('Vendor namespace "%s" is not valid.', $vendor));
         }
 
@@ -76,7 +84,7 @@ final class FixerGenerator implements \IteratorAggregate
                 return new $fixer();
             },
             iterator_to_array($finder, false),
-        ), static fn(object $fixer): bool => $fixer instanceof FixerInterface);
+        ), static fn (object $fixer): bool => $fixer instanceof FixerInterface);
 
         yield from $fixers;
     }

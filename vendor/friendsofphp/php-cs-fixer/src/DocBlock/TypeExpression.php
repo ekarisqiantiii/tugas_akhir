@@ -108,7 +108,7 @@ final class TypeExpression
                         (?:
                             \h*,\h*
                             (?&callable_argument)
-                        )*
+                        )*+
                         (?:\h*,\h*)?
                     |)
                     \h*\)
@@ -125,7 +125,7 @@ final class TypeExpression
                         (?:
                             \h*,\h*
                             (?&types_inner)
-                        )*
+                        )*+
                         (?:\h*,\h*)?
                     )
                     \h*>
@@ -147,8 +147,8 @@ final class TypeExpression
                           (?:\.(?&constant_digits)|(?<=\d)\.)?+
                           (?:e[+-]?(?&constant_digits))?+
                     )
-                    | \'(?:[^\'\\\\]|\\\\.)*+\'
-                    | "(?:[^"\\\\]|\\\\.)*+"
+                    | \'(?:[^\'\\\]|\\\.)*+\'
+                    | "(?:[^"\\\]|\\\.)*+"
                     (?-i)
                 )
                 |
@@ -159,7 +159,7 @@ final class TypeExpression
                 )
                 |
                 (?<name> # full name, e.g.: `int`, `\DateTime`, `\Foo\Bar`, `positive-int`
-                    \\\\?+
+                    \\\?+
                     (?<identifier>'.self::REGEX_IDENTIFIER.')
                     (?:[\\\\\-](?&identifier))*+
                 )
@@ -196,13 +196,13 @@ final class TypeExpression
                 (\h*\[\h*\])*
             )
             (?:(?=1)0
-                (?<types_inner>
+                (?<types_inner>(?>
                     (?&type)
                     (?:
                         \h*[|&]\h*
                         (?&type)
                     )*+
-                )
+                ))
             |)
         )';
 
@@ -220,12 +220,12 @@ final class TypeExpression
     private ?NamespaceAnalysis $namespace;
 
     /**
-     * @var NamespaceUseAnalysis[]
+     * @var list<NamespaceUseAnalysis>
      */
     private array $namespaceUses;
 
     /**
-     * @param NamespaceUseAnalysis[] $namespaceUses
+     * @param list<NamespaceUseAnalysis> $namespaceUses
      */
     public function __construct(string $value, ?NamespaceAnalysis $namespace, array $namespaceUses)
     {

@@ -345,11 +345,12 @@ final class CodeIgniter4 extends AbstractRuleset
             'not_operator_with_space'                          => false,
             'not_operator_with_successor_space'                => true,
             'nullable_type_declaration'                        => false, // requires 8.0+
-            'nullable_type_declaration_for_default_null_value' => ['use_nullable_type_declaration' => true],
+            'nullable_type_declaration_for_default_null_value' => true,
             'numeric_literal_separator'                        => false,
             'object_operator_without_whitespace'               => true,
             'octal_notation'                                   => false, // requires 8.1+
             'operator_linebreak'                               => ['only_booleans' => true, 'position' => 'beginning'],
+            'ordered_attributes'                               => false, // requires 8.0+
             'ordered_class_elements'                           => [
                 'order' => [
                     'use_trait',
@@ -365,10 +366,11 @@ final class CodeIgniter4 extends AbstractRuleset
                 'imports_order'  => ['class', 'function', 'const'],
                 'case_sensitive' => false,
             ],
-            'ordered_interfaces' => false,
-            'ordered_traits'     => false,
-            'ordered_types'      => false, // requires 8.0+
-            'php_unit_construct' => [
+            'ordered_interfaces'  => false,
+            'ordered_traits'      => false,
+            'ordered_types'       => false, // requires 8.0+
+            'php_unit_attributes' => false, // requires 8.1+
+            'php_unit_construct'  => [
                 'assertions' => [
                     'assertSame',
                     'assertEquals',

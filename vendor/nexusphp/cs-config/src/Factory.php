@@ -25,6 +25,30 @@ use PhpCsFixer\Finder;
 final class Factory
 {
     /**
+     * Current RulesetInterface instance.
+     */
+    private RulesetInterface $ruleset;
+
+    /**
+     * Array of resolved options.
+     *
+     * @phpstan-var array{
+     *     cacheFile: string,
+     *     customFixers: iterable<\PhpCsFixer\Fixer\FixerInterface>,
+     *     finder: \PhpCsFixer\Finder|iterable<\SplFileInfo>,
+     *     format: string,
+     *     hideProgress: bool,
+     *     indent: string,
+     *     lineEnding: string,
+     *     phpExecutable: null|string,
+     *     isRiskyAllowed: bool,
+     *     usingCache: bool,
+     *     rules: array<string, mixed>
+     * }
+     */
+    private array $options;
+
+    /**
      * @param array{
      *     cacheFile: string,
      *     customFixers: iterable<\PhpCsFixer\Fixer\FixerInterface>,
@@ -36,16 +60,20 @@ final class Factory
      *     phpExecutable: null|string,
      *     isRiskyAllowed: bool,
      *     usingCache: bool,
-     *     rules: array<string, array<string, mixed>|bool>
-     * } $options Array of resolved options
+     *     rules: array<string, mixed>
+     * } $options
      */
-    private function __construct(private RulesetInterface $ruleset, private array $options) {}
+    private function __construct(RulesetInterface $ruleset, array $options)
+    {
+        $this->ruleset = $ruleset;
+        $this->options = $options;
+    }
 
     /**
      * Prepares the ruleset and options before the `PhpCsFixer\Config` object
      * is created.
      *
-     * @param array<string, array<string, mixed>|bool> $overrides
+     * @param array<string, mixed> $overrides
      * @param array{
      *     cacheFile?: string,
      *     customFixers?: iterable<\PhpCsFixer\Fixer\FixerInterface>,
@@ -57,7 +85,7 @@ final class Factory
      *     phpExecutable?: null|string,
      *     isRiskyAllowed?: bool,
      *     usingCache?: bool,
-     *     customRules?: array<string, array<string, mixed>|bool>
+     *     customRules?: array<string, mixed>
      * } $options
      */
     public static function create(RulesetInterface $ruleset, array $overrides = [], array $options = []): self
@@ -73,7 +101,7 @@ final class Factory
 
         // Meant to be used in vendor/ to get to the root directory
         $dir = \dirname(__DIR__, 4);
-        $dir = (string) realpath($dir);
+        $dir = realpath($dir) ?: $dir;
 
         $defaultFinder = Finder::create()
             ->files()
@@ -90,7 +118,7 @@ final class Factory
         $options['indent'] ??= '    ';
         $options['lineEnding'] ??= "\n";
         $options['phpExecutable'] ??= null;
-        $options['isRiskyAllowed'] ??= $ruleset->willAutoActivateIsRiskyAllowed();
+        $options['isRiskyAllowed'] = $options['isRiskyAllowed'] ?? ($ruleset->willAutoActivateIsRiskyAllowed() ?: false);
         $options['usingCache'] ??= true;
         $options['rules'] = array_merge($ruleset->getRules(), $overrides, $options['customRules'] ?? []);
 
@@ -150,7 +178,7 @@ final class Factory
     /**
      * The main method of creating the Config instance.
      *
-     * @param array<string, array<string, mixed>|bool> $overrides
+     * @param array<string, array<string>|bool> $overrides
      *
      * @internal
      */

@@ -88,6 +88,7 @@ final class Tachycardia implements AfterLastTestHook, AfterSuccessfulTestHook, B
 
     /**
      * @param array<string, mixed> $options
+     *
      * @phpstan-param array{
      *     'timeLimit'?:float,
      *     'reportable'?:int,
@@ -156,7 +157,7 @@ final class Tachycardia implements AfterLastTestHook, AfterSuccessfulTestHook, B
         --$this->suites;
 
         if (0 === $this->suites && $this->hasSlowTests()) {
-            usort($this->slowTests, static fn($a, $b): int => $b['time'] <=> $a['time']);
+            usort($this->slowTests, static fn ($a, $b): int => $b['time'] <=> $a['time']);
 
             if ($this->monitor) {
                 $this->render();

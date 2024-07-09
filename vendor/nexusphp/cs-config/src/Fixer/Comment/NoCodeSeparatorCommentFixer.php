@@ -17,6 +17,7 @@ use Nexus\CsConfig\Fixer\AbstractCustomFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
@@ -124,6 +125,6 @@ final class NoCodeSeparatorCommentFixer extends AbstractCustomFixer
 
     private function isCodeSeparatorComment(string $comment): bool
     {
-        return preg_match('/^\/\/\s*[-|=]+$/', $comment) === 1;
+        return Preg::match('/^\/\/\s*[-|=]+$/', $comment) === 1;
     }
 }

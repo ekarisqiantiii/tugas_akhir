@@ -25,14 +25,14 @@ use Symfony\Component\Config\Definition\PrototypedArrayNode;
  */
 class XmlReferenceDumper
 {
-    private ?string $reference = null;
+    private $reference;
 
-    public function dump(ConfigurationInterface $configuration, string $namespace = null)
+    public function dump(ConfigurationInterface $configuration, ?string $namespace = null)
     {
         return $this->dumpNode($configuration->getConfigTreeBuilder()->buildTree(), $namespace);
     }
 
-    public function dumpNode(NodeInterface $node, string $namespace = null)
+    public function dumpNode(NodeInterface $node, ?string $namespace = null)
     {
         $this->reference = '';
         $this->writeNode($node, 0, true, $namespace);
@@ -42,7 +42,7 @@ class XmlReferenceDumper
         return $ref;
     }
 
-    private function writeNode(NodeInterface $node, int $depth = 0, bool $root = false, string $namespace = null)
+    private function writeNode(NodeInterface $node, int $depth = 0, bool $root = false, ?string $namespace = null)
     {
         $rootName = ($root ? 'config' : $node->getName());
         $rootNamespace = ($namespace ?: ($root ? 'http://example.org/schema/dic/'.$node->getName() : null));
@@ -268,8 +268,10 @@ class XmlReferenceDumper
 
     /**
      * Renders the string conversion of the value.
+     *
+     * @param mixed $value
      */
-    private function writeValue(mixed $value): string
+    private function writeValue($value): string
     {
         if ('%%%%not_defined%%%%' === $value) {
             return '';
